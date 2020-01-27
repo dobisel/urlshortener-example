@@ -1,0 +1,7 @@
+bddrest
+pytest-cov
+coveralls
+gunicorn
+pytest-pudb
+coverage
+ipython
