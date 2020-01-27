@@ -28,16 +28,16 @@ def getfreshid():
 def store(url):
     while True:
         freshid = getfreshid()
-        if db.redis.setnx(freshid, url):
+        if redis.setnx(freshid, url):
             break
 
-    db.redis.expire(freshid, URL_TIMETOLIVE)
+    redis.expire(freshid, URL_TIMETOLIVE)
     return freshid
 
 
 @app.route('/(.*)')
 def get(req, key):
-    originalurl = db.redis.get(key)
+    originalurl = redis.get(key)
     if not originalurl:
         raise statuses.notfound()
 

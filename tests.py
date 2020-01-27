@@ -50,24 +50,24 @@ def redismock():
 def test_shortener_json(urandommock, redismock):
     with Given(
         app,
-        'Shortening a URL',
+        title='Shortening a URL',
         verb='POST',
         json=dict(url='http://example.com')
     ):
         assert status == 201
         assert response.text == 'rmXGPMVQnrKAB'
 
-        when('URL is not valid', json=dict(url='invalidurl'))
+        when(title='URL is not valid', json=dict(url='invalidurl'))
         assert status == 400
 
-        when('URL field is missing', json=given - 'url')
+        when(title='URL field is missing', json=given - 'url')
         assert status == '400 Field missing: url'
 
-"""
+
 def test_shortener_urlencoded(urandommock, redismock):
     with Given(
         app,
-        'Shortening a URL',
+        title='Shortening a URL',
         verb='POST',
         form=dict(url='http://example.com')
     ):
@@ -78,7 +78,7 @@ def test_shortener_urlencoded(urandommock, redismock):
 def test_shortener_multipart(urandommock, redismock):
     with Given(
         app,
-        'Shortening a URL',
+        title='Shortening a URL',
         verb='POST',
         multipart=dict(url='http://example.com')
     ):
@@ -91,12 +91,11 @@ def test_redirector(redismock):
     redismock.set('foo', 'https://example.com')
     with Given(
         app,
-        'Redirect a short url',
-        '/foo'
+        title='Redirect a short url',
+        url='/foo'
     ):
         assert status == 302
         assert response.headers['LOCATION'] == 'https://example.com'
 
-        when('URL does not exist', '/notexists')
+        when(title='URL does not exist', url='/notexists')
         assert status == 404
-"""
