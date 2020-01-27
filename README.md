@@ -1,4 +1,4 @@
-# simple_bitly
+# urlshortener-example
 [![Build Status](https://travis-ci.com/amirRamirfatahi/simplebitly.svg?branch=master)](https://travis-ci.com/amirRamirfatahi/simplebitly)
 [![Coverage Status](https://coveralls.io/repos/github/amirRamirfatahi/simplebitly/badge.svg?branch=master)](https://coveralls.io/github/amirRamirfatahi/simplebitly?branch=master)
 
@@ -6,58 +6,57 @@ Simple_bitly is a URL shortener software.
 
 This project has been developed solely for technical purposes.
 
-Simple_bitly consists of two modules. the `generator` and the `redirector`.
-
+This is demo projcet for [yhttp](https://github.com/yhttp/yhttp).
 
 ## Installation
 First you need to clone the project or download it directly.
 
-Then use the package manager [pip](https://pip.pypa.io/en/stable/) to install simple_bitly.
+Then use the package manager [pip](https://pip.pypa.io/en/stable/) to install it.
 
 
 ```bash
-cd [PATH_TO_DOWNLOAD]
+cd PATH/TO/DOWNLOAD
 pip install .
 ```
 
 ## Deployment
-We use [gunicorn](https://gunicorn.org/) to serve our wsgi application. When you install `simple_bitly` gunicorn is
-also installed as a dependency library. so you don't need to install it yourself.
+You can use [gunicorn](https://gunicorn.org/) to serve our wsgi application.
 
-you can deploy the `generator` and the `redirector` using the following commands respectively.
+```bash
+pip install gunicorn
+```
+
+you can deploy the `generator` using the following command.
 
 **Note**: You can bind it to any address of your liking.
 
 ```bash
-cd path/to/simplebitly
-gunicorn simplebitly.generator:generator --bind localhost:8000
-gunicorn simplebitly.redirector:redirector --bind localhost:8001
+cd path/to/urlshortener-example
+gunicorn simplebitly.shortener:app --bind localhost:8000
 ```
 
 
 ## Usage
-To use `simple_bitly` use the following command to send a your URL to the `generator`.
+To use `urlshortener-example` use the following command to send a your URL to the app.
 ```bash
 curl localhost:8000 -X POST -d "url=[some long URL]"
 ```
-The answer to the request is an 8-char fixed-length string which is basically your short url.
 
-Now take the accquired short URL to make a request to the `redirector`.
+Now take the accquired short URL to make a request to get redirected.
 You can use a web browser for this part as it's a simple *GET* request.
-so simply visit `localhost:8001/[short URL]`.
+so simply visit `localhost:8000/[short URL]`.
 
 Now you must be automatically redirected to your original URL.
 
 
 ## Tests
-Although this project is not using any 3rd-party library to handle BDD tests, I've done my best to follow the philosophy 
-to some extent. Hence, we use the natural language style of `Feature` files in BDD to name our `unittest`s.
-So throughout the project, `unittest`s follow the below template.
+Install the necessary packages to contribute or run tests.
 
-```python
-def test_[Given clause]_[When clause]_[Then clause]()
+```bash
+pip install -r requirements-dev.txt
 ```
-**Note**: The keywords: `given`, `when` and `then` are simply ommited because of redundancy.
+
+We use [bddrest](https://github.com/pylover/bddrest) to test our project.
 
 
 ## Contributing
