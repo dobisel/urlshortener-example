@@ -11,12 +11,16 @@ This is demo projcet for [yhttp](https://github.com/yhttp/yhttp).
 ## Installation
 First you need to clone the project or download it directly.
 
-Then use the package manager [pip](https://pip.pypa.io/en/stable/) to install it.
+```bash
+git clone https://github.com/yhttp/urlshortener-example
+cd urlshortener-example
+pip install .
+```
 
+Or
 
 ```bash
-cd PATH/TO/DOWNLOAD
-pip install .
+pip install git+https://github.com/yhttp/urlshortener-example
 ```
 
 ## Deployment
@@ -32,7 +36,7 @@ you can deploy the `generator` using the following command.
 
 ```bash
 cd path/to/urlshortener-example
-gunicorn simplebitly.shortener:app --bind localhost:8000
+gunicorn shortener:app --bind localhost:8000
 ```
 
 
