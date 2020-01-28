@@ -1,14 +1,9 @@
 # urlshortener-example
-[![Build Status](https://travis-ci.com/amirRamirfatahi/simplebitly.svg?branch=master)](https://travis-ci.com/amirRamirfatahi/simplebitly)
-[![Coverage Status](https://coveralls.io/repos/github/amirRamirfatahi/simplebitly/badge.svg?branch=master)](https://coveralls.io/github/amirRamirfatahi/simplebitly?branch=master)
-
-Simple_bitly is a URL shortener software.
-
-This project has been developed solely for technical purposes.
 
 This is demo projcet for [yhttp](https://github.com/yhttp/yhttp).
 
 ## Installation
+
 First you need to clone the project or download it directly.
 
 ```bash
