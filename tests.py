@@ -33,10 +33,9 @@ def redismock():
         def set(self, key, value):
             self.maindict[key] = value
 
-    dummy = RedisMock()
     backup = shortener.redis
-    shortener.redis = dummy
-    yield dummy
+    shortener.redis = RedisMock()
+    yield shortener.redis
     shortener.redis = backup
 
 
