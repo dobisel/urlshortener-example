@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 import os
 import string
 
@@ -20,25 +23,14 @@ def redismock():
     import shortener
 
     class RedisMock:
-        maindict: dict
-
         def __init__(self):
             self.maindict = dict()
 
-        def get(self, key: str):
+        def get(self, key):
             return self.maindict.get(key, '').encode()
 
-        def set(self, key: str, value):
+        def set(self, key, value):
             self.maindict[key] = value
-
-        def setnx(self, key: str, value):
-            if not self.maindict.get(key):
-                self.set(key, value)
-                return 1
-            return 0
-
-        def expire(self, key: str, seconds: int):
-            pass
 
     dummy = RedisMock()
     backup = shortener.redis
@@ -62,29 +54,6 @@ def test_shortener_json(urandommock, redismock):
 
         when(title='URL field is missing', json=given - 'url')
         assert status == '400 Field missing: url'
-
-
-def test_shortener_urlencoded(urandommock, redismock):
-    with Given(
-        app,
-        title='Shortening a URL',
-        verb='POST',
-        form=dict(url='http://example.com')
-    ):
-        assert status == 201
-        assert response.text == 'rmXGPMVQnrKAB'
-
-
-def test_shortener_multipart(urandommock, redismock):
-    with Given(
-        app,
-        title='Shortening a URL',
-        verb='POST',
-        multipart=dict(url='http://example.com')
-    ):
-        assert status == 201
-        assert response.text == 'rmXGPMVQnrKAB'
-
 
 
 def test_redirector(redismock):
