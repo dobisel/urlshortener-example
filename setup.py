@@ -2,9 +2,8 @@ from setuptools import setup
 
 
 dependencies = [
-    'yhttp',
+    'yhttp >= 2.5, < 3',
     'redis',
-    'hashids'
 ]
 
 
@@ -15,5 +14,6 @@ setup(
     long_description=open('README.md').read(),
     install_requires=dependencies,
     py_modules=['shortener'],
-    license='MIT'
+    entry_points=dict(console_scripts='shortener=shortener:app.climain'),
+    license='MIT',
 )

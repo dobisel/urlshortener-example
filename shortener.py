@@ -1,28 +1,26 @@
-import os
+import random
 
 import redis
-from hashids import Hashids
 from yhttp import Application, text, statuses, validate, statuscode
 
 
-hashids = Hashids()
 app = Application()
-redis = redis.Redis(host='localhost', port='6379')
+redis = redis.Redis()
 
 
 def store(url):
-    freshid = hashids.encode(int.from_bytes(os.urandom(8), 'big'))
+    freshid = hex(random.randint(0x0001, 0xFFFF))[2:]
     redis.set(freshid, url)
     return freshid
 
 
 @app.route('/(.*)')
 def get(req, key):
-    originalurl = redis.get(key)
-    if not originalurl:
+    longurl = redis.get(key)
+    if not longurl:
         raise statuses.notfound()
 
-    raise statuses.found(originalurl.decode())
+    raise statuses.found(longurl.decode())
 
 
 @app.route()

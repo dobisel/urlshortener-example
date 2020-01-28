@@ -2,6 +2,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import os
+import random
 import string
 
 import pytest
@@ -11,11 +12,11 @@ from shortener import app
 
 
 @pytest.fixture
-def urandommock():
-    backup = os.urandom
-    os.urandom = lambda c: string.ascii_letters.encode()[:c]
+def randommock():
+    backup = random.randint
+    random.randint = lambda a, b: 0xF00
     yield
-    os.unrandom = backup
+    random.randint = backup
 
 
 @pytest.fixture
@@ -39,7 +40,7 @@ def redismock():
     shortener.redis = backup
 
 
-def test_shortener_json(urandommock, redismock):
+def test_shortener_json(randommock, redismock):
     with Given(
         app,
         title='Shortening a URL',
@@ -47,7 +48,7 @@ def test_shortener_json(urandommock, redismock):
         json=dict(url='http://example.com')
     ):
         assert status == 201
-        assert response.text == 'J84DkBBl6B8By'
+        assert response.text == 'f00'
 
         when(title='URL is not valid', json=dict(url='invalidurl'))
         assert status == 400
