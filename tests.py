@@ -47,7 +47,7 @@ def test_shortener_json(urandommock, redismock):
         json=dict(url='http://example.com')
     ):
         assert status == 201
-        assert response.text == 'rmXGPMVQnrKAB'
+        assert response.text == 'J84DkBBl6B8By'
 
         when(title='URL is not valid', json=dict(url='invalidurl'))
         assert status == 400

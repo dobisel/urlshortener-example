@@ -1,9 +1,8 @@
 import os
-import struct
 
 import redis
 from hashids import Hashids
-from yhttp import Application, text, statuses, validate
+from yhttp import Application, text, statuses, validate, statuscode
 
 
 hashids = Hashids()
@@ -12,8 +11,7 @@ redis = redis.Redis(host='localhost', port='6379')
 
 
 def store(url):
-    randomint, = struct.unpack('L', os.urandom(8))
-    freshid = hashids.encode(randomint)
+    freshid = hashids.encode(int.from_bytes(os.urandom(8), 'big'))
     redis.set(freshid, url)
     return freshid
 
@@ -35,9 +33,7 @@ def get(req, key):
     )
 ))
 @text
+@statuscode('201 Created')
 def post(req):
-    longurl = req.form['url']
-    shorturl = store(longurl)
-    req.response.status = '201 Created'
-    return shorturl
+    return store(req.form['url'])
 
