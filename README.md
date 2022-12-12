@@ -18,6 +18,12 @@ Or
 pip install git+https://github.com/yhttp/urlshortener-example
 ```
 
+Also you need to install redis server.
+
+```bash
+apt install redis-server
+```
+
 ## Deployment
 You can use [gunicorn](https://gunicorn.org/) to serve our wsgi application.
 
